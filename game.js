@@ -1,6 +1,10 @@
 import Scoring from "./scoring";
 const scoring = new Scoring()
-
+const sounds = {
+  powerUp: document.querySelector('#power-up'),
+  powerDown: document.querySelector('#power-down'),
+  jump: document.querySelector('#jump')
+}
 let gameRunning = true
 let score = 0
 const canvas = document.querySelector('canvas')
@@ -67,6 +71,7 @@ const render = () => {
   }
   if (keys['w']) {
     if (!player.jumping) {
+      sounds.jump.play()
       player.jumping = true
       player.vy = -player.speed * 2
     }
@@ -98,6 +103,7 @@ const render = () => {
 
   if (enemy.x < player.x && enemy.x > player.x - player.width &&
       player.y > enemy.y - player.height + 20) {
+    sounds.powerDown.play()
     gameRunning = false
   }
 
@@ -131,6 +137,9 @@ const render = () => {
     if (collectible.x > player.x && collectible.x < player.x + playerSize &&
         collectible.y > player.y && collectible.y < player.y + playerSize) {
       collectibles.splice(i, 1)
+      cIcon === '☠️'
+        ? sounds.powerDown.play()
+        : sounds.powerUp.play()
       score += cScore
       const [icon, iconScore] = randomPick(foods)
       collectibles.push(Food(random(0, width), 0, icon, iconScore))

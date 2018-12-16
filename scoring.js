@@ -1,6 +1,4 @@
 export default class Scoring {
-  data
-
   constructor() {
     this.data = JSON.parse(localStorage.data || '[]')
   }
